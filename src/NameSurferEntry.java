@@ -30,6 +30,9 @@ public class NameSurferEntry implements NameSurferConstants {
             endLocation = line.indexOf(" ", startLocation);
         }
         rank[rank.length-1] = Integer.parseInt(line.substring(startLocation));
+        if (rank.length != NDECADES) {
+            throw new IllegalArgumentException();
+        }
     }
 
     /**

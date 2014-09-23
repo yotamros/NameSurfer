@@ -90,26 +90,29 @@ public class NameSurferGraph extends GCanvas implements NameSurferConstants,
         int lineInterval = this.getWidth() / NDECADES;
         for (int i = 0; i < entries.size(); i++) {
             NameSurferEntry entry = entries.get(i);
-            for (int j = 0; j < NDECADES; j++) {
-                int firstPoint = entry.getRank(j);
-                int secondPoint = 0;
-                if (j < NDECADES -1) {
-                    secondPoint = entry.getRank(j + 1); 
-                    secondPoint = isZero(secondPoint);
-                }
-                String score = Integer.toString(entry.getRank(j));
-                firstPoint = isZero(firstPoint);
-                
-                score = isZero(score);
-                double heightRatio = (double) (getHeight() - 2 * GRAPH_MARGIN_SIZE)
-                        / MAX_RANK;
-                
-                this.add(markScore(entry, score, firstPoint, lineInterval,
-                        heightRatio, j));
-                if (j < NDECADES -1) {
-                    this.add(drawLine(lineInterval, firstPoint, secondPoint,
-                            heightRatio, i, j));
-                }
+            drawGraph(entry, lineInterval, i);
+        }
+    }
+    
+    /**
+     * Draws the graph of the given entry.
+     * @param entry, the entry of the graph.
+     * @param lineInterval, int, the visual distance between each decade.
+     * @param i, int.
+     */
+    private void drawGraph(NameSurferEntry entry, int lineInterval, int i) {
+        for (int j = 0; j < NDECADES; j++) {
+            int firstY = entry.getRank(j);
+            int secondY = 0;
+            String score = Integer.toString(entry.getRank(j));
+            firstY = isZero(firstY);
+            score = isZero(score);
+            double heightRatio = (double) (getHeight() - 2 * GRAPH_MARGIN_SIZE) / MAX_RANK;
+            this.add(markScore(entry, score, firstY, lineInterval,heightRatio, j));
+            if (j < NDECADES -1) {
+                secondY = entry.getRank(j + 1); 
+                secondY = isZero(secondY);
+                this.add(drawLine(lineInterval, firstY, secondY, heightRatio, i, j));
             }
         }
     }
